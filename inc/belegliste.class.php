@@ -98,7 +98,7 @@ function getVeranstaltungenAuswahl($belegliste, $veranstaltungen, $select , $id 
   $list  = "";
   $list_tmp = "";
   $sel2  = 'selected="selected"';
-  $list .= "\n\r<select style='padding: 5px; width: 30%' name='veranstaltung$id' size='1' onchange='update(\"veranstaltungID\",this.form.veranstaltung$id.options[this.form.veranstaltung$id.selectedIndex].value, $id)'>";
+  $list .= "\n\r<select style='padding: 5px; width: 60%' name='veranstaltung$id' size='1' onchange='update(\"veranstaltungID\",this.form.veranstaltung$id.options[this.form.veranstaltung$id.selectedIndex].value, $id)'>";
   $dis = '';
   
   if( $select == "-1" )                                                                             // Liste mit ALLEN Veranstaltungen wird erzeugt
