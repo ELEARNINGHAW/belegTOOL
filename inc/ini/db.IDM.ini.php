@@ -1,5 +1,5 @@
 	<?php
-	$liveserver = "lernserver.ls.haw-hamburg.de"; # Adresse des Liveservers ohne "www",
+	$liveserver = "lernserver.el.haw-hamburg.de"; # Adresse des Liveservers ohne "www",
 	# "www.meine.server.de = meine.server.de"
    
 	if ( $_SERVER[ 'SERVER_NAME' ] == $liveserver )
