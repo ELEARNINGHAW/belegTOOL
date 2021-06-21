@@ -1,0 +1,73 @@
+ 
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #FCFCFC;
+	font-size: 15px;
+	line-height: 140%;
+	margin: 20px;
+	width: 100%;
+	padding-bottom: 200px;
+}
+
+
+.user {
+padding: 5px;
+	background-color: #D0D0D0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin: 1px;
+
+}
+
+.beleg {
+padding: 5px;
+	background-color: #AAAAAA;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin: 1px;
+}
+
+.beleggeBucht {
+padding: 5px;
+	background-color: #00FF00;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin: 1px;
+}
+
+
+.belegWunsch {
+padding: 5px;
+	background-color: #0000AA;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin: 1px;
+}
+
+.addItem
+{
+left:70px;	 
+	color: #000000;
+	text-decoration: none;
+	font-weight: 600;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin: 1px;
+
+}
+
+hr
+ {	
+ 	margin: 0px;
+	margin-left: 0px;
+	height: 2px;
+}
+
+.delItem
+{
+margin-left: 6px;
+top: 13px;
+}
+
+
+
