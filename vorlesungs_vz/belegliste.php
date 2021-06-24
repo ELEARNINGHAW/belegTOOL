@@ -28,7 +28,7 @@ if (isset($_SESSION["r"]))
     $veranstaltungsFilterID = $bl->getFilterID();               # gewählter Filter
     $filterListe            = $bl->getHeliosAuswahl();          # gewählte Listen für Anzeige und den HELIOS Export
     $param                  = $bl->getParams();                 # Übergebenen POST und GET Parameter
-    $vorlesungsliste        = $db->getVorlesung(0 );        # aktueller Veranstalungsplan: Studigengang - Semester - Professor
+    $vorlesungsliste        = $db->getVorlesung(0 );       # aktueller Veranstalungsplan: Studigengang - Semester - Professor
     $gesamtBelegliste       = $db->getGesamtBelegliste();       # gesamte Wunsch-Belegliste mit allen Buchungen der Studis
     $vl_verzeichnis2        = $db->getVorlesungsVerzeichnis2(); #
     $vl_verzeichnis         = $db->getVorlesungsVerzeichnis();  #
@@ -49,7 +49,6 @@ if (isset($_SESSION["r"]))
       if ($param['A'] ==  2){ $db->setStatus( 2 ); } # Alle NICHT Erstis
       if ($param['A'] ==  3){ $db->setStatus( 3 ); } #ALLE
     }
-
     
                                          $html2 .= $render->renderVeranstaltungsMenu( $vl_verzeichnis2, $role )."<br />";  # Auswahlmenu
                                           

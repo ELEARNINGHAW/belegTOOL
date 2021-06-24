@@ -276,8 +276,8 @@ function getErstsemestermatnr()
 	}
 	return $erstsemestermatnr;
 }
-
 */
+
 function setDB( $param, $IDMuser , $belegliste, $vl_verzeichnis )
 { if( $param[ 'column' ] == "delete" )
 	{ $sql_1 = "DELETE FROM `mdl_haw_wunschbelegliste` WHERE `ID` = ". $param[ 'ID' ] .";";

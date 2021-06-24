@@ -89,19 +89,17 @@ if( $_GET )                                                                     
   if ( isset( $_GET[ 'dp'  ] )) { $IDMuser[ 'department'  ] =  rawurldecode( base64_decode( $_GET[ 'dp' ] ) ); } else { echo "<br>ERROR: no 'department' "; } 
   if ( isset( $_GET[ 'se'  ] )) { $IDMuser[ 'semester'    ] =  rawurldecode( base64_decode( $_GET[ 'se' ] ) ); } else { echo "<br>ERROR: no 'semester'   "; } 
   
-  $dbIDM -> insertIDMuser( $IDMuser );                                                                if ($DEBUG) echo"<br>neuer Eintrag<br>";
+  $dbIDM -> insertIDMuser( $IDMuser );                                                              if ($DEBUG) echo"<br>neuer Eintrag<br>";
   $IDMuser = $dbIDM -> getIDMuser( $IDMuser[ 'akennung' ] );
 
-  $IDMuser[ 'stg' ] = $db -> transSG( $IDMuser[ 'studiengang' ] );                                   // Gruppiert ähnliche Studiengänge (zu BT, VT, HC...)
+  $IDMuser[ 'stg' ] = $db -> transSG( $IDMuser[ 'studiengang' ] );                                  // Gruppiert ähnliche Studiengänge (zu BT, VT, HC...)
   $_SESSION[ 'IDMuser'    ] =  $IDMuser;                                                            if ($DEBUG){echo"<br>IDMU SESS<br>";  deb( $_SESSION[ 'IDMuser'  ]);}
 }
 
 else 
 {
-
-  $IDMuser =  $_SESSION[ 'IDMuser'  ];                                                              if ($DEBUG){echo"<br>INTERN IDMU<br>";  deb($IDMuser);}
+  $IDMuser =  $_SESSION[ 'IDMuser'  ];                                                                                      if ($DEBUG){echo"<br>INTERN IDMU<br>";  deb($IDMuser);}
 }
-
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -112,30 +110,29 @@ $belegliste                     = $db->getBelegliste( $IDMuser[ 'matrikelnr' ], 
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 
 if(  isset($param['action']) && !empty($param['action']) )                                                                              /*  Datenbänke werden aktualisiert */
-{    $dbIDM->insertIDMuser( $IDMuser );                                                                   if ($DEBUG) echo"<br>neuer Eintrag<br>";
-
-    $dbIDM->setDB( $param , $IDMuser  );
-    $db->setDB( $param , $IDMuser, $belegliste, $vl_verzeichnis );
-    $belegliste = $db->getBelegliste( $IDMuser[ 'matrikelnr' ], $vl_verzeichnis );
-    $_SESSION[ 'IDMuser'  ] = $IDMuser = $dbIDM->getIDMuser( $IDMuser[ 'akennung' ] );
+{
+    $dbIDM -> insertIDMuser( $IDMuser );                                                                                    if ($DEBUG) echo"<br>neuer Eintrag<br>";
+    $dbIDM -> setDB( $param , $IDMuser  );
+    $db -> setDB( $param , $IDMuser, $belegliste, $vl_verzeichnis );
+    $belegliste = $db -> getBelegliste( $IDMuser[ 'matrikelnr' ], $vl_verzeichnis );
+    $_SESSION[ 'IDMuser'  ] = $IDMuser = $dbIDM -> getIDMuser( $IDMuser[ 'akennung' ] );
 }
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
-
-                                                                                             if ($DEBUG){echo"<br>DB IDMU<br>";   deb($IDMuser);}
-
-if ($IDMuser['semester'] > 0 ) { $semIsSet = true; }
-
+                                                                                                                             if ($DEBUG){echo"<br>DB IDMU<br>";   deb($IDMuser);}
+                                                                                                                             if ($IDMuser[ 'semester' ] > 0 ) { $semIsSet = true; }
 $contentA .= $bl -> getstudiverwaltunghtmlhead();                                                                            if ($DEBUG){echo"<br>PARAM<br>";     deb($param)  ;}
 $contentA .= $bl -> getJavaScript();
 
 $contentA .= "<div class=\"user\" style='text-align: center; float: left; width: 100%'>";
+
+if ($IDMuser[ 'akennung' ] != '')
+{
 $contentA .= $IDMuser[ 'vorname' ].' ' .$IDMuser[ 'nachname' ]. '<br />';
 $contentA .= $IDMuser[ 'matrikelnr'  ]  ." - ".( $db->transSG( $IDMuser[ 'studiengang'  ] ) ) ."" . $IDMuser[ 'semester' ]  ;
 $contentA .= " [".$phase."] ";
 $contentA .= "</div>";
 
 $contentA .= "\n\r<form  method='post' name='belegliste' action='#'>";
-
 $contentA .= "<div class=\"user\" style='text-align: center; float: left; width: 100%; height: 2px;'>";
 $contentA .= "\n\r<input name='matrikelnr' value=\"".$IDMuser[ 'matrikelnr' ]."\" type='hidden' />";
 $contentA .= "\n\r<input name='akennung'   value=\"".$IDMuser[ 'akennung'   ]."\" type='hidden' />";
@@ -144,48 +141,45 @@ $contentA .= "</div>";
 #$contentA .= "<br />Ihr Studiengang";
 #$contentA .= $tmp = $bl->getStudiengaengeAuswahl( $studiengaenge , $IDMuser['studiengang'] );       if ($DEBUG){echo"<br>SG Auswahl<br>";  deb($tmp)  ;}
 
-if (!$semIsSet)
+if ( !$semIsSet )
 {
-
-
-    $contentA .= "<div style='width:100%; color:#FFFFFF; background-color:#880000; padding:0px; text-align:center;'>Bitte geben Sie Ihr Fachsemester an.</div>";
-
-
+  $contentA .= "<div style='width:100%; color:#FFFFFF; background-color:#880000; padding:0px; text-align:center;'>Bitte geben Sie Ihr Fachsemester an.</div>";
 }
 $contentA .= "<div style='text-align: center; float: left; width: 100%;  padding: 10px;'>";
 $contentA .= "Ihr Fachsemester";
-$contentA .= $tmp = $bl->getFachsemesterAuswahl( $IDMuser );                                        if ($DEBUG){echo"<br>FS Auswahl<br>";  deb($tmp)  ;} 
+$contentA .= $tmp = $bl -> getFachsemesterAuswahl( $IDMuser );                                                            if ($DEBUG){echo"<br>FS Auswahl<br>";  deb($tmp)  ;}
 $contentA .= "</div>";
 
 $contentA .= "<hr />";
 
-if ($semIsSet) {
+if ($semIsSet)
+{
+  $contentA .= "<div style='text-align: center; float: left; width: 100%'>";
+  $contentA .= $tmp = $bl -> getBeleglistenAuswahl( $belegliste, $vl_verzeichnis, $IDMuser, $phase );                       if ($DEBUG)   {    echo "<br>BL Auswahl<br>";     deb($tmp);   }
+}
 
-    $contentA .= "<div style='text-align: center; float: left; width: 100%'>";
-    $contentA .= $tmp = $bl->getBeleglistenAuswahl($belegliste, $vl_verzeichnis, $IDMuser, $phase);
-    if ($DEBUG) {
-        echo "<br>BL Auswahl<br>";
-        deb($tmp);
-    }
+$contentA .= "\n\r</form>";
 
-    }
-
-    $contentA .= "\n\r</form>";
-if ($semIsSet) {
+if ( $semIsSet )
+{
     $contentA .= "<div style='text-align: center; float: left;; width: 100%'>";
     $contentA .= $bl->getAddNewEntryButton($phase);
     $contentA .= "</div>";
 }
     $contentA .= "<div style='text-align: center; float: left; width: 100%'>";
-    $contentA .= $tmp = $bl->getParamForm($IDMuser);
-    if ($DEBUG) {
-        echo "<br>PARAM Form<br>";
-        deb($tmp);
-    }
+    $contentA .= $tmp = $bl->getParamForm($IDMuser);                                                                    if ($DEBUG) {     echo "<br>PARAM Form<br>"; deb($tmp); }
     $contentA .= "</div>";
+}
+
+else
+{
+    $contentA .= "<div style='width:100%; color:#FFFFFF; background-color:#880000; padding:0px; text-align:center;'><strong>SESSION TIMEOUT</strong><br /><hr /></div>";
+}
 
     $contentA .= "</div>";
 
+    
+    
 echo $contentA;
 
 function deb($value)
