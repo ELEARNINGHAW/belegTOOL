@@ -90,9 +90,10 @@ if( $_GET )                                                                     
   if ( isset( $_GET[ 'se'  ] )) { $IDMuser[ 'semester'    ] =  rawurldecode( base64_decode( $_GET[ 'se' ] ) ); } else { echo "<br>ERROR: no 'semester'   "; } 
   
   $dbIDM -> insertIDMuser( $IDMuser );                                                              if ($DEBUG) echo"<br>neuer Eintrag<br>";
+  
   $IDMuser = $dbIDM -> getIDMuser( $IDMuser[ 'akennung' ] );
-
-  $IDMuser[ 'stg' ] = $db -> transSG( $IDMuser[ 'studiengang' ] );                                  // Gruppiert ähnliche Studiengänge (zu BT, VT, HC...)
+  
+  #$IDMuser[ 'stg' ] = $db -> transSG( $IDMuser[ 'studiengang' ] );                                  // Gruppiert ähnliche Studiengänge (zu BT, VT, HC...)
   $_SESSION[ 'IDMuser'    ] =  $IDMuser;                                                            if ($DEBUG){echo"<br>IDMU SESS<br>";  deb( $_SESSION[ 'IDMuser'  ]);}
 }
 
@@ -182,11 +183,12 @@ else
     
 echo $contentA;
 
-function deb($value)
+function deb($value, $kill = false)
 {
   echo "<pre>";
   print_r($value);
   echo "</pre>";
+  if ($kill) {die();}
 }
 
 ?>

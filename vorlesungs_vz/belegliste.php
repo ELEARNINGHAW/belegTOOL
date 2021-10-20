@@ -1,11 +1,8 @@
 <?php 
 error_reporting(1);
 session_start();
-#include ("checkreferer.php");#
-#$_SESSION["r"] = null;
 
-#$_SESSION["r"] = 5;
-$_SESSION[ 'where' ] = '';
+$_SESSION[ 'where' ] = array();
 
 if (isset($_SESSION["r"]))
 {

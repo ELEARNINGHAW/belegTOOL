@@ -16,8 +16,6 @@ session_start();
 <body>
 <?php
 
-
-
 if (isset($_SESSION["r"]))
 {
   $role = $_SESSION["r"];
@@ -26,21 +24,27 @@ if (isset($_SESSION["r"]))
   require_once( "../inc/vz.render.class.php" );
 
   $render 			= new Render;
+
   $DB 			  	= new DB;
+
   if (isset($_GET[ 'a' ]))
-    
-  {    
-    $action 			= $_GET[ 'a' ]; //----------  Datenbank update ---------- 
-		$DB->setDB( $action );
-	}
+  {
+    $action = $_GET[ 'a' ]; //----------  Datenbank update ----------
+	$DB->setDB( $action );
+  }
   //echo "<br>". $action;
-	$lists			 = $DB->getAllLists();									//- Assoc Array mit allen Professoren, Studiengänen, Veranstaltungen
-	$vl_verzeichnis 	 = $DB->getVorlesungsVerzeichnis( );						// -- Struktur und Werte der DB ausgeben ----------
+ 
   
-  $html  		 = "" ;
+	$lists			 = $DB->getAllLists();									//- Assoc Array mit allen Professoren, Studiengänen, Veranstaltungen
+ 
+	$vl_verzeichnis	 = $DB->getVorlesungsVerzeichnis( );						// -- Struktur und Werte der DB ausgeben ----------
+
+  
+    $html            = "" ;
 	$html 			.= "<h1>Vorlesungs VZ</h1>";
 	$html 			.= "\n\r<form name='vlvz' action='#'>";
 	$html 			.= $render->printVorlesungsverzeichnisAuswahl($vl_verzeichnis, $lists, $role );
+ 
 	echo $html; 														// -- Auswahlmatrix mit dem gesamten Vorlesungsverzeichnis ausgeben
 }
 else

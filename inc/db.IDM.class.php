@@ -6,28 +6,29 @@ var $conn;
  
 function  __construct()
 {
-    require("ini/db.IDM.ini.php");
+  require("ini/db.IDM.ini.php");
 	$this->conn  = mysqli_connect( $server, $user, $pass );
 	 
 	if( $this->conn )
 	{   
-		if (!mysqli_select_db(  $this->conn, $dbase )            ) 		echo "<br>ERROR: DB Select<br>";
-        if (!mysqli_query($this->conn ,  "set names 'utf8'"    ) ) 		echo "<br>ERROR: DB UTF8<br>";
+		if (!mysqli_select_db( $this->conn, $dbase )            ) 		echo "<br>ERROR: DB Select<br>";
+    if (!mysqli_query( $this->conn ,  "set names 'utf8'"    ) ) 		echo "<br>ERROR: DB UTF8<br>";
 	}
 	else
 	{
-																		die("<b>ERROR:  IDM-DB no connection </b>");
+    die("<b>ERROR:  IDM-DB no connection </b>");
 	}
+	#deb($this->conn );
 }
 
 function getIDMuser($value, $select = "A")
-{   if          ( $select == "M" ) $selector = "matrikelnr";
-	else if  	( $select == "A" ) $selector = "akennung";
+{ if        ( $select == "M" ) $selector = "matrikelnr";
+	else if   ( $select == "A" ) $selector = "akennung";
 	
 	$IDMuser ="";
 
 	$sql_1 = "SELECT * FROM `mdl_haw_idm` WHERE `$selector` = '$value'";
-
+ 
 	$result_1	= mysqli_query( $this->conn, $sql_1  );
  
 	if ( $result_1 )

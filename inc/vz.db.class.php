@@ -1,9 +1,9 @@
 <?php
 class DB
 {
-	var $conn;
-	function DB()
-	{ 
+  var $conn;
+	function __construct()
+	{
 		include("ini/db.ini.php");
 		$this->conn = mysqli_connect( $opts['hn'] , $opts['un'],  $opts['pw'] );
 		if($this->conn)
@@ -14,7 +14,6 @@ class DB
 		{
 			die("<b>Verbindung zum MySQL-Server konnte nicht hergestellt werden </b>");
 		}
-    
 	}
 
 	function getVorlesungsVerzeichnis( $sort= "veranstaltung")
@@ -219,7 +218,7 @@ class DB
 
 	function getAllLists()
 	{   
-		$lists = "";
+		$lists = array();
 
 		$sql_1 = "SELECT * FROM `mdl_haw_professoren`";
 		$sql_2 = "SELECT * FROM `mdl_haw_studiengaenge`";
@@ -237,8 +236,9 @@ class DB
 				$professoren[$row['abk']] = $row;
 			}
       ksort($professoren);
-      
-      $lists[ 'professoren' ] = $professoren;
+     
+     $lists[ 'professoren' ] = array();
+     $lists[ 'professoren' ] = $professoren;
 		}
 
 		if ( $result_2 )
@@ -248,7 +248,7 @@ class DB
 				$studiengaenge[ $row['studiengang'].'.'.$row['ID']] = $row;
 			}
       ksort($studiengaenge);
-      #deb($studiengaenge,1); 
+    
       $lists[ 'studiengaenge' ] = $studiengaenge;
 		}
 
@@ -259,8 +259,7 @@ class DB
 				$veranstaltungen[$row['abk']] = $row;
 			}
       ksort($veranstaltungen);
-      
-      #deb($veranstaltungen,1);
+ 
       $lists[ 'veranstaltungen' ] = $veranstaltungen;
 		}
     

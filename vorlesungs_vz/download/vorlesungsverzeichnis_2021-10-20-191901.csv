@@ -1,0 +1,39 @@
+VERANSTALTUNG;VER_ABK;PROFESSOR;PROF_ABK;STUDIENGANG
+ Mathematik 1;Mat1;Wilke;Wk;Medizintechnik
+ Mathematik 1;Mat1;Kohlhoff;Klf;Hazard Control
+ Mathematik 1;Mat1;Sawatzki;Swi;Verfahrenstechnik
+ Mathematik 1;Mat1;Mondorf;Mdf;Umwelttechnik
+ Mathematik 1;Mat1;Barbas;Bar;Biotechnologie
+ Mathematik 2;Mat2;Rodenhausen;Rod;Biotechnologie
+ Mathematik 2;Mat2;Stern;Stern;Umwelttechnik
+ Mathematik 2;Mat2;Rodenhausen;Rod;Rescue Engeneering
+ Mathematik 2;Mat2;Kohlhoff;Klf;Medizintechnik
+ Mathematik 2;Mat2;Rodenhausen;Rod;Verfahrenstechnik
+ Mathematik 3;Mat3;Siegers;Sie;Umwelttechnik
+ Mathematik 3;Mat3;Wilke;Wk;Hazard Control
+ Mathematik 3;Mat3;Maas;Maa;Biotechnologie
+ Mathematik 3;Mat3;Sawatzki;Swi;Verfahrenstechnik
+ Mathematik 3;Mat3;Siegers;Sie;Medizintechnik
+ Physik 1;Phy1;Letzig;Let;Verfahrenstechnik
+ Physik 1;Phy1;van Stevendaal;Svd;Hazard Control
+ Physik 1;Phy1;Siegers;Sie;Umwelttechnik
+ Physik 1;Phy1;Bishop;Bop;Medizintechnik
+ Physik 1;Phy1;Hersberger;Hrb;Biotechnologie
+ Physik 2;Phy2;Bishop;Bop;Medizintechnik
+ Physik 2;Phy2;van Stevendaal;Svd;Rescue Engeneering
+ Physik 2;Phy2;Kampschulte;Kps;Umwelttechnik
+ Physik 2;Phy2;Kampschulte;Kps;Verfahrenstechnik
+ Physik 2;Phy2;Riemenschneider;Rie;Biotechnologie
+ Informatik 1;Inf1;Kohlhoff;Klf;Verfahrenstechnik
+ Informatik 1;Inf1;Foerger;Foer;Umwelttechnik
+ Informatik 1;Inf1;Schiemann;Smn;Medizintechnik
+ Informatik 1;Inf1;Foerger;Foer;Biotechnologie
+ Informatik 1;Inf1;Loer;Loer;Hazard Control
+ Informatik 2;Inf2;Tolg;Tlg;Biotechnologie
+ Informatik 2;Inf2;Loer;Loer;Verfahrenstechnik
+ Informatik 2;Inf2;Schiemann;Smn;Medizintechnik
+ Informatik 2;Inf2;Foerger;Foer;Umwelttechnik
+ Informatik 2;Inf2;Loer;Loer;Rescue Engeneering
+ Informatik 3;Inf3;Schiemann;Smn;Medizintechnik
+ Informatik 3;Inf3;Tolg;Tlg;Biotechnologie
+ Informatik 3;Inf3;Foerger;Foer;Umwelttechnik

@@ -399,9 +399,6 @@ class Render
     $ret .= '</div> <br />'."\n"; 
     if ($role > 3)   $ret .= "\n\r".'<input  name="SUB" type="submit" value="-SELECTED-" />';
 
-    
-    
-    
     if ( $_SESSION[ 'where' ][ 1 ]['css'] == 'W'){ $pre[1] = "0/"; }
     if ( $_SESSION[ 'where' ][ 2 ]['css'] == 'W'){ $pre[2] = "0/"; }
     if ( $_SESSION[ 'where' ][ 3 ]['css'] == 'W'){ $pre[3] = "0/"; }

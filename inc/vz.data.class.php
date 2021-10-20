@@ -2,18 +2,13 @@
 class Data
 {
 	function exportBelegliste( $belegliste, $vl_verzeichnis,  $veranstaltungsFilterID )
-	{
-		$head = "MATRIKELNR;VORNAME;NACHNAME;STUDIENGANG;SEMESTER;MAIL\r\n";
+	{ $head = "MATRIKELNR;VORNAME;NACHNAME;STUDIENGANG;SEMESTER;MAIL\r\n";
 		$csv = '';
 		$vorlesungsname = '';
 		if( $belegliste )
-		foreach($belegliste as $bl )
-		{ 
-			if( $bl['vorlesung']['ID'] == $veranstaltungsFilterID ||  $veranstaltungsFilterID == -2 )
+		foreach( $belegliste as $bl )
+		{ if( $bl[ 'vorlesung' ][ 'ID' ] == $veranstaltungsFilterID ||  $veranstaltungsFilterID == -2 )
 			{
-        
-        #deb($bl['IDMuser']);
-        
 				$vorlesungsname =  $bl['vorlesung']['veranstaltung']['abk'] . "-" . $bl['vorlesung']['studiengang']['abk'] .  $bl['vorlesung']['semester'] . "-" . $bl['vorlesung']['professor']['abk'];
 				$csv2  = 	 $bl['IDMuser']['matrikelnr'];
 				$csv2 .= ";".$bl['IDMuser']['vorname']; 
@@ -23,7 +18,7 @@ class Data
 				$csv2 .= ";".$bl['IDMuser']['semester'];
 				$csv2 .= ";".$bl['IDMuser']['mail']."\r\n" ;
 				$csv  .= $csv2 ; 
-				$csv2 = "";
+#				$csv2 = "";
 			}
 		}
 		
@@ -74,8 +69,7 @@ class Data
 	}
 
 	function exportHELIOSliste(  $gesamtBelegliste , $vl_verzeichnis  )
-	{
-		$allStudentsMulti = '';
+	{ $allStudentsMulti = array();
     
     foreach( $vl_verzeichnis as $vlvz )
 		{
@@ -87,8 +81,7 @@ class Data
 		$i = 0;
 		$phash = "Prof;CODE\r\n";
 		foreach ( $professorList as $pl )
-		{
-			$professorenHELIOShash [$pl] = "".chr( $i + 65 );
+		{	$professorenHELIOShash [$pl] = "".chr( $i + 65 );
 			$phash.= chr( $i + 65 ).";".$pl."\r\n";
 			$i++;
 		}
@@ -97,8 +90,7 @@ class Data
 		$veranstaltungList			= array_unique( $veranstaltungtmp );
 		$i = 1;
 		foreach ( $veranstaltungList as $vl )
-		{	
-			//$code = chr( $i + 65 );
+		{	//$code = chr( $i + 65 );
 			$code ="".$i; 
 			$veranstaltungHELIOShash[$vl] = "".$code;
 			$vhash.= $code .";".$vl."\r\n";
@@ -106,32 +98,26 @@ class Data
 		}
 
 		if ( $gesamtBelegliste != '' ) 
-    {
-      foreach  ( $gesamtBelegliste  as $bel ) 
-		{
-			$allStudentsMulti [] 	= $bel ['IDMuser']['matrikelnr']. ";" . $bel ['IDMuser']['vorname'] . ";" . $bel ['IDMuser']['nachname']. ";";	
-		}
+    { foreach  ( $gesamtBelegliste  as $bel )
+		  { $allStudentsMulti [] 	= $bel ['IDMuser']['matrikelnr']. ";" . $bel ['IDMuser']['vorname'] . ";" . $bel ['IDMuser']['nachname']. ";";
+  		}
 		
-		$allStudents  = array_unique( $allStudentsMulti  );
+	  	$allStudents  = array_unique( $allStudentsMulti  );
     }
-    $csv = "Matrikel;Name;Vorname;CODE\r\n";
+    
+		$csv = "Matrikel;Name;Vorname;CODE\r\n";
 
-		if (isset($allStudents))
+	  if (isset($allStudents))
     foreach ( $allStudents as $studs )
-		{
-		   $matNr  =  explode(";",$studs );
+		{ $matNr  =  explode(";",$studs );
 			$csv .= $studs;
 			for ( $i = 0 ; $i < sizeof( $gesamtBelegliste ) ; $i++ )
-			{ 
-	   		
-        if ( $gesamtBelegliste[$i]['IDMuser']['matrikelnr'] ==   $matNr[0] && $gesamtBelegliste[$i]['status'] == 'B'  )// Nur Bestätigte Belegungen kommen in die Liste 
-				{     
-         
-                    $csv 	.= $professorenHELIOShash[$gesamtBelegliste[$i]['vorlesung']['professor']['abk']] ; 
-                    $csv	.= $veranstaltungHELIOShash[$gesamtBelegliste[$i]['vorlesung']['veranstaltung']['abk']]; 
+			{ if ( $gesamtBelegliste[$i]['IDMuser']['matrikelnr'] ==   $matNr[0] && $gesamtBelegliste[$i]['status'] == 'B'  )// Nur Bestätigte Belegungen kommen in die Liste
+				{  $csv .= $professorenHELIOShash[$gesamtBelegliste[$i]['vorlesung']['professor']['abk']] ;
+           $csv	.= $veranstaltungHELIOShash[$gesamtBelegliste[$i]['vorlesung']['veranstaltung']['abk']];
 				}		
-					
-			}$csv  .="\r\n";
+			}
+			$csv  .="\r\n";
 		}
 	
 		$csv = $csv.$phash.$vhash;
@@ -145,10 +131,8 @@ class Data
 
 		
 	function exportHELIOSliste2(  $gesamtBelegliste , $vl_verzeichnis, $filterListe  )
-	{
-		foreach( $vl_verzeichnis as $vlvz )
-		{
-			$professortmp[]			= 	$vlvz['professor']['abk'];	
+	{	foreach( $vl_verzeichnis as $vlvz )
+		{	$professortmp[]			= 	$vlvz['professor']['abk'];
 			$veranstaltungtmp[] 	=	$vlvz['veranstaltung']['abk'];
 		}		
  
@@ -156,67 +140,54 @@ class Data
 		$i = 0;
 		$phash = "Prof;CODE\r\n";
 		foreach ( $professorList as $pl )
-		{
-			$professorenHELIOShash [$pl] = "".chr( $i + 65 );
+		{ $professorenHELIOShash [$pl] = "".chr( $i + 65 );
 			$phash.= chr( $i + 65 ).";".$pl."\r\n";
 			$i++;
 		}
  
- 
 		$vhash = "Veranst;CODE\r\n";
-		$veranstaltungList			= array_unique( $veranstaltungtmp );
+		$veranstaltungList = array_unique( $veranstaltungtmp );
 		$i = 1;
 		foreach ( $veranstaltungList as $vl )
-		{	
-			//$code = chr( $i + 65 );
-			$code ="".$i; 
-			$veranstaltungHELIOShash[$vl] = "".$code;
-			$vhash.= $code .";".$vl."\r\n";
+		{	$code = "" . $i;
+			$veranstaltungHELIOShash[$vl] = "" . $code;
+			$vhash.= $code . ";" . $vl . "\r\n";
 			$i++;
 		}
-
-    
+  
 		foreach  ( $gesamtBelegliste  as $bel ) 
-    {
-        $allStudentsMulti[]	= $bel ['IDMuser']['matrikelnr']. ";" . $bel ['IDMuser']['vorname'] . ";" . $bel ['IDMuser']['nachname']. ";";	
+    {  $allStudentsMulti[]	= $bel ['IDMuser']['matrikelnr']. ";" . $bel ['IDMuser']['vorname'] . ";" . $bel ['IDMuser']['nachname']. ";";
     }
 		$allStudents  = array_unique( $allStudentsMulti  );
-
-    
-	$csv ="Matrikel;Name;Vorname;CODE\r\n";
+  
+    $csv ="Matrikel;Name;Vorname;CODE\r\n";
     $csv2	='';
     
     foreach ( $allStudents as $studs )
-		{   $hatVeranstaltung = false;	
-		    $matNr  =  explode(";",$studs );
+		{ $hatVeranstaltung = false;
+		  $matNr  =  explode(";",$studs );
 			for ( $i = 0 ; $i < sizeof( $gesamtBelegliste ) ; $i++ )
-			{ 
-	   				if ( $gesamtBelegliste[$i]['IDMuser']['matrikelnr'] ==   $matNr[0] )
-					{
-						foreach ($filterListe as $filter)
-						{ $ID = $gesamtBelegliste[$i]['vorlesung']['ID'];   
-							if ( $ID ==  $filter  && $gesamtBelegliste[$i]['status'] == 'B'  )// Nur Bestätigte Belegungen kommen in die Liste 
-							{  
-								$csv2	.= $professorenHELIOShash[$gesamtBelegliste[$i]['vorlesung']['professor']['abk']] ; 
-								$csv2	.= $veranstaltungHELIOShash[$gesamtBelegliste[$i]['vorlesung']['veranstaltung']['abk']];
-                                $hatVeranstaltung = true;		
-                                $veranst[ $ID ]['prof']= $gesamtBelegliste[$i]['vorlesung']['professor']['abk'];
-                                $veranst[ $ID ]['stdg']=$gesamtBelegliste[$i]['vorlesung']['studiengang']['abk2'];
-                                $veranst[ $ID ]['vorl']=$gesamtBelegliste[$i]['vorlesung']['veranstaltung']['abk'];
-							}
+			{  if ( $gesamtBelegliste[$i]['IDMuser']['matrikelnr'] ==   $matNr[0] )
+			   {  foreach ($filterListe as $filter)
+						{ $ID = $gesamtBelegliste[ $i ][ 'vorlesung' ][ 'ID' ];
+							if ( $ID ==  $filter  && $gesamtBelegliste[ $i ][ 'status' ] == 'B'  )// Nur Bestätigte Belegungen kommen in die Liste
+							{ $csv2	.= $professorenHELIOShash[   $gesamtBelegliste[ $i ][ 'vorlesung' ][ 'professor'     ][ 'abk' ] ];
+								$csv2	.= $veranstaltungHELIOShash[ $gesamtBelegliste[ $i ][ 'vorlesung' ][ 'veranstaltung' ][ 'abk' ] ];
+                $veranst[ $ID ][ 'prof' ] = $gesamtBelegliste[ $i ][ 'vorlesung' ][ 'professor'     ][ 'abk'  ];
+                $veranst[ $ID ][ 'stdg' ] = $gesamtBelegliste[ $i ][ 'vorlesung' ][ 'studiengang'   ][ 'abk2' ];
+                $veranst[ $ID ][ 'vorl' ] = $gesamtBelegliste[ $i ][ 'vorlesung' ][ 'veranstaltung' ][ 'abk'  ];
+                $hatVeranstaltung = true;
+              }
 						}
 					}
 			}		
       
-			if( $hatVeranstaltung)
-			{			
-			$csv .= $studs;
-			$csv .= $csv2;
-			$csv  .="\r\n";
-			$csv2 = "";
+			if( $hatVeranstaltung )
+			{	$csv .= $studs;
+			  $csv .= $csv2;
+  			$csv  .="\r\n";
+  			$csv2 = "";
 			}	
-      
-    //  if ( $unbest > 0 )
 }
 
 $fname='';
@@ -241,127 +212,106 @@ return "<a href=\"$path$filename\" style=\"float:left;\" class=\"download\" targ
 
 function makeDownload($file, $dir, $type) 
 {
-//ob_start('');
-ob_end_clean();
-header("Content-Type:$type");
-header("Content-Disposition: attachment; filename=".$file);
-readfile($dir.$file);
-die();
+  //ob_start('');
+  ob_end_clean();
+  header("Content-Type:$type");
+  header("Content-Disposition: attachment; filename=".$file);
+  readfile($dir.$file);
+  die();
 } 
 
-	
-	
-	
-	function exportVorlesungsverzeichnisAuswahl($vl_verzeichnis, $lists )
-	{
-		$head = "STUDIENGANG;VERANSTALTUNG;	PROFESSOR\r\n";
-		for ($i=0; $i < sizeof($vl_verzeichnis);$i++)
-		{ 
-			$vorlesung = $vl_verzeichnis[$id]  ;
-			$nid = $vorlesung['ID'];
-		
-			$bl .=  " ".$lists[$nid]['studiengaenge'];
+function exportVorlesungsverzeichnisAuswahl($vl_verzeichnis, $lists )
+{ $head = "STUDIENGANG;VERANSTALTUNG;	PROFESSOR\r\n";
+  for ($i=0; $i < sizeof($vl_verzeichnis);$i++)
+  { $vorlesung = $vl_verzeichnis[$id]  ;
+    $nid = $vorlesung['ID'];
+  
+    $bl .=  " ".$lists[$nid]['studiengaenge'];
 
-			$csv .= $bl; 
-			$bl = "";
-		}
-	}
+    $csv .= $bl;
+    $bl = "";
+  }
+}
 
-	function getStudiPerVL($vl_verzeichnis)
-	{
-		// Sortierte Listen mit Studiengängen u. Veranstaltungen ohne Redundanzen erstellen
-    foreach ( $vl_verzeichnis as $vz)	
-		{
-     print_r($vz);
+function getStudiPerVL($vl_verzeichnis)
+{ // Sortierte Listen mit Studiengängen u. Veranstaltungen ohne Redundanzen erstellen
+  foreach ( $vl_verzeichnis as $vz)
+  {  print_r($vz);
+  }
+}
 
+
+function sortVorlesungsVerzeichnis($vl_verzeichnis)
+{
+  // Sortierte Listen mit Studiengängen u. Veranstaltungen ohne Redundanzen erstellen
+  foreach ( $vl_verzeichnis as $vz)
+  { $sg[] = $vz[ 'studiengang'   ][ 'abk' ];
+    $va[] = $vz[ 'veranstaltung' ][ 'abk' ];
+  }
+
+  $sg = array_unique( $sg );
+  $va = array_unique( $va );
+  sort( $sg );
+  sort( $va );
+
+  for ( $i = 0; $i < sizeof( $sg );  ++$i )
+  { $sgTMP[ $i ][ 'value' ] = $sg[ $i ] ;
+    $sgTMP[ $i ][ 'count' ] = $i;
+  }
+  $sg = $sgTMP;
+
+  for ( $j = 0; $j < sizeof( $va );  ++$j )
+  { $vaTMP[ $j ][ 'value' ] = $va[ $j ] ;
+    $vaTMP[ $j ][ 'count' ] = $j;
+  }
+  $va = $vaTMP;
+  
+
+
+  
+  
+  // Array initialisieren
+  for ( $i = 0; $i < sizeof( $sg );  ++$i )
+  { for ( $j = 0; $j < sizeof( $va );  ++$j )
+    { $vl_verzeichnisTMP[$i][$j] = 0;
     }
   }
   
+  foreach ( $vl_verzeichnis as $vlvz )
+  { $x = $y = 0;
   
-	function sortVorlesungsVerzeichnis($vl_verzeichnis)
-	{
-		// Sortierte Listen mit Studiengängen u. Veranstaltungen ohne Redundanzen erstellen
-    foreach ( $vl_verzeichnis as $vz)	
-		{
-      $sg[] = $vz[ 'studiengang' ][ 'abk' ];  
-			$va[] = $vz[ 'veranstaltung' ][ 'abk' ];  
-		}
+    for ( $i = 0; $i < sizeof( $sg );  ++$i )
+    { if ( $vlvz['studiengang']['abk'] ==  $sg[$i]['value'] )
+      { $x =  $sg[$i]['count'];
+      }
+    }
 
-		$sg = array_unique( $sg );
-		$va = array_unique( $va );
-		sort( $sg );
-		sort( $va );
+    for ( $j = 0; $j < sizeof( $va );  ++$j )
+    { if ( $vlvz['veranstaltung']['abk'] ==  $va[$j]['value'] )
+      { $y = $va[$j]['count'];
+      }
+    }
 
-		for ( $i = 0; $i < sizeof( $sg );  ++$i ) 
-		{
-			$sgTMP[ $i ][ 'value' ] = $sg[ $i ] ; 
-			$sgTMP[ $i ][ 'count' ] = $i; 
-		}
-		$sg = $sgTMP;
+    $vl_verzeichnisTMP[$x][$y] = $vlvz;
+  }
+  #deb($vl_verzeichnisTMP,1);
+  return $vl_verzeichnisTMP;
+}
 
-		for ( $j = 0; $j < sizeof( $va );  ++$j ) 
-		{
-			$vaTMP[ $j ][ 'value' ] = $va[ $j ] ; 
-			$vaTMP[ $j ][ 'count' ] = $j; 
-		}
-		$va = $vaTMP;
-		
- 
-	
-		
-		
-		// Array initialisieren	
-		for ( $i = 0; $i < sizeof( $sg );  ++$i ) 
-		{
-			for ( $j = 0; $j < sizeof( $va );  ++$j ) 
-			{
-				$vl_verzeichnisTMP[$i][$j] = 0;
-			}
-		}
-		
-		foreach ( $vl_verzeichnis as $vlvz )
-		{
-			$x = $y = 0;
-			
-			for ( $i = 0; $i < sizeof( $sg );  ++$i ) 
-			{
-				if ( $vlvz['studiengang']['abk'] ==  $sg[$i]['value'] )
-				{
-					$x =  $sg[$i]['count'];
-				}
-			}
 
-			for ( $j = 0; $j < sizeof( $va );  ++$j ) 
-			{
-				if ( $vlvz['veranstaltung']['abk'] ==  $va[$j]['value'] )
-				{
-					$y = $va[$j]['count'];
-				}
-			}
+function logIt($log)
+{ $filename = "download/log.txt";
+  $logline = $log. ", " . date("Y-m-d-His",time())."\n";
 
-			$vl_verzeichnisTMP[$x][$y] = $vlvz;
-		}
-		#deb($vl_verzeichnisTMP,1);
-		return $vl_verzeichnisTMP;
-	}
-	
-	
-	function logIt($log)
-	{
-	
-		$filename = "download/log.txt";
-		$logline = $log. ", " . date("Y-m-d-His",time())."\n";
+  $fh = fopen( $filename, "a" );
+  fwrite($fh,utf8_decode( $logline ) );
+  fclose($fh);
+}
 
-		$fh = fopen( $filename, "a" );
-		fwrite($fh,utf8_decode( $logline ) );
-		fclose($fh);
-	}
-	
-	function deb($var)
-	{
-		echo "<pre>";
-		print_r($var);
-		echo "</pre>";
-	}
+function deb($var)
+{ echo "<pre>";
+  print_r($var);
+  echo "</pre>";
+}
 }
 ?>

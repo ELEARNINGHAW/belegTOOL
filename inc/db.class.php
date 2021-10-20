@@ -19,6 +19,7 @@ function  __construct( $dbIDM = null )
 	if( $dbIDM )
 	{	$this->dbIDM = $dbIDM;
 	}
+ 
 }
 
 function transSG( $sg )
@@ -52,12 +53,12 @@ if( $kohorte != 3)
 }  
 
 $i = 0;
-
+#deb($sql_1);
 $result_1 = mysqli_query (  $this->conn, $sql_1  );
 
 if ( $result_1 )
 { while ( $row = mysqli_fetch_array( $result_1, MYSQLI_ASSOC ) )
-  {	$statuslist .= ' OR ID='.$row['ID']; $i++;
+  {	$statuslist .= ' OR ID='.$row[ 'ID' ]; $i++; # deb($row);
   }
 }
 
@@ -65,23 +66,24 @@ $ret[ 'clausel' ] = $statuslist;
 if ( $withAnz )
 {  $ret[ 'anz' ] = $i;
 }
-	 
+
 return $ret;
 }
+
 # status:  W,B
 # Kohorte: 1 Alle Erstis,
 #          2 Alle NICHT Erstis,
 #          3 ALLE
 function setStatus( $kohorte )
 { if (! isset( $_SESSION[ 'where' ][ $kohorte ][ 'clausel' ] ) ) ## 1. Aufruf - Noch kein Eintrag vorhanden
-  { $set = $this -> getKohortStatus( $kohorte );
+  { $set = $this -> getKohortStatus( $kohorte );# deb($kohorte);; deb($set);
     $_SESSION[ 'where' ][ $kohorte ][ 'clausel' ] = $set[ 'statuslist' ] ;
     $_SESSION[ 'where' ][ $kohorte ][ 'kohote'  ] = $kohorte;
     $_SESSION[ 'where' ][ $kohorte ][ 'status'  ] = 'B';
     $_SESSION[ 'where' ][ $kohorte ][ 'css'     ] = 'W';
   }
   else
-  { if(  $_SESSION[ 'where' ][ $kohorte ][ 'status' ] != 'B' )
+  { if( $_SESSION[ 'where' ][ $kohorte ][ 'status' ] != 'B' )
     { $_SESSION[ 'where' ][$kohorte][ 'status' ] = 'B';
       $_SESSION[ 'where' ][$kohorte][ 'css'    ] = 'W';
     }
@@ -441,7 +443,7 @@ function deb($var)
 
 function getGesamtBelegliste( $sort = "veranstaltung" )
 {
-  $belegliste = '';
+  $belegliste = array();
 
   $sql_1 = "SELECT * FROM `mdl_haw_wunschbelegliste` ORDER BY `".$sort."ID`	ASC ";
 
@@ -456,7 +458,7 @@ function getGesamtBelegliste( $sort = "veranstaltung" )
 
       if( $row[ 'veranstaltungID' ] != '-1'   )
 	    {
-        $tmp[ 'IDMuser' ] = $this->dbIDM->getIDMuser( $row[ 'studID' ], 'M' ) ;  				                      #$this->deb($tmp[ 'IDMuser' ]);
+        $tmp[ 'IDMuser' ] = $this->dbIDM->getIDMuser( $row[ 'studID' ], 'M' ) ;
         $tmp[ 'IDMuser' ][ 'studiengang' ]=    $this->transSG( $tmp[ 'IDMuser' ][ 'studiengang' ] );
         $tmp[ 'vorlesung' ] = $_SESSION[ 'vorlesungsliste' ][ $row[ 'veranstaltungID' ] ];
         $belegliste[] = $tmp;

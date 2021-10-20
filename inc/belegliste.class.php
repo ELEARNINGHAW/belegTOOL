@@ -8,9 +8,9 @@ function  __construct($db, $dbIDM)
 {     
     $this->db   = $db;  
     $this->dbIDM = $dbIDM;  
-    if(! isset($_SESSION[ 'where' ][ 1 ][ 'anz' ] ) ) { $_SESSION[ 'where' ][ 1 ] = $db->getKohortStatus( 1, true ); } # Anzahl Studis im Status W wird nur einmal, beim ersten Aufruf ermittelt
-    if(! isset($_SESSION[ 'where' ][ 2 ][ 'anz' ] ) ) { $_SESSION[ 'where' ][ 2 ] = $db->getKohortStatus( 2, true ); }
-    if(! isset($_SESSION[ 'where' ][ 3 ][ 'anz' ] ) ) { $_SESSION[ 'where' ][ 3 ] = $db->getKohortStatus( 3, true ); }  
+    if(! isset($_SESSION[ 'where' ][ 1 ][ 'anz' ] ) ) { $_SESSION[ 'where' ][ '1' ] = $db->getKohortStatus( 1, true )['anz']; } # Anzahl Studis im Status W wird nur einmal, beim ersten Aufruf ermittelt
+    if(! isset($_SESSION[ 'where' ][ 2 ][ 'anz' ] ) ) { $_SESSION[ 'where' ][ '2' ] = $db->getKohortStatus( 2, true )['anz']; }
+    if(! isset($_SESSION[ 'where' ][ 3 ][ 'anz' ] ) ) { $_SESSION[ 'where' ][ '3' ] = $db->getKohortStatus( 3, true )['anz']; }
 }
 
 function getStudiengaengeAuswahl( $studiengaenge, $select )                                         //-- Liefert HTML-Auswahlliste mit allen Studiengänen, aktueller Studiengang ist selektiert
@@ -499,7 +499,7 @@ function isChangeable()
 
 function getParams()
 {
-   $param = '';
+   $param = array();
    
    if ( isset( $_POST[ 'a'        ] ) ) $param[ 'action'   ] = $_POST[ 'a'        ];
    if ( isset( $_POST[ 'col'      ] ) ) $param[ 'column'   ] = $_POST[ 'col'      ];

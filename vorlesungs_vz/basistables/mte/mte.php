@@ -208,7 +208,7 @@ class MySQLtabledit {
 
 		$start = 0;
 		if (isset($_GET["start"])) { 
-			$start = $_GET["start"]*1;
+		$start = (int)$_GET["start"]*1;
 		}
 
 
@@ -265,9 +265,9 @@ class MySQLtabledit {
 					$sort_image = '';
 					if (in_array($key, $this->fields_in_list_view)) {
 						if ($count == 1) {
-							
+						 
 							// show nice text of a value 
-							if ($this->show_text_listview[$key]) {$show_key = $this->show_text_listview[$key];}
+							if (isset($this->show_text_listview[$key])) {$show_key = $this->show_text_listview[$key];}
 								else {$show_key = $key;}
 
 							// sorting
@@ -286,7 +286,10 @@ class MySQLtabledit {
 							$head .= "<td nowrap><a href='$this->url_script?$query_sort' class='mte_head'>$show_key</a> $sort_image</td>";
 						}
 						if ($key == $this->primary_key) {
-							$buttons = "<td nowrap><a href='javascript:void(0)' onclick='del_confirm($value)' title='Delete {$this->show_text_listview[$key]} $value'><img src='$this->url_base/images/del.png' class='icons' title='{$this->text['Delete']}'></a>&nbsp;&nbsp;<a href='?$query_string&mte_a=edit&id=$value' title='Edit {$this->show_text_listview[$key]} $value'><img src='$this->url_base/images/edit.png' class='icons' title='{$this->text['Edit']}'></a></td>";
+							$buttons = "<td nowrap><a href='javascript:void(0)' onclick='del_confirm($value)' title='Delete   $value'>
+              <img src='$this->url_base/images/del.png' class='icons' title='{$this->text['Delete']}'></a>&nbsp;&nbsp;
+              <a href='?$query_string&mte_a=edit&id=$value' title='Edit   $value'>
+              <img src='$this->url_base/images/edit.png' class='icons' title='{$this->text['Edit']}'></a></td>";
 							$this_row .= "<td>$value</td>";
 						}
 						else {
@@ -397,7 +400,7 @@ class MySQLtabledit {
 		$options = '';
 		foreach ($this->fields_in_list_view AS $option) {
 			
-			if ($this->show_text_listview[$option]) {$show_option = $this->show_text_listview[$option];}
+			if (isset($this->show_text_listview[$option])) 		{$show_option = $this->show_text_listview[$option];}
 			else {$show_option = $option;}
 
 			if ($option == $in_search_field) {
@@ -440,9 +443,11 @@ class MySQLtabledit {
 			</table>
 		";
 
+		if (!isset ($this->show_text_listview[$this->primary_key])) {$txt = '0'; }
+		else { $txt = $this->show_text_listview[$this->primary_key]; }
 		$this->javascript = "
 			function del_confirm(id) {
-				if (confirm('{$this->text['Delete']} record {$this->show_text_listview[$this->primary_key]} ' + id + '...?')) {
+				if (confirm('{$this->text['Delete']} record {$txt} ' + id + '...?')) {
 					window.location='$this->url_script?$query_string&mte_a=del&id=' + id				
 				}
 			}
@@ -459,8 +464,6 @@ class MySQLtabledit {
 			
 			$this->nav_bottom
 		";
-		
-		
 	}
 
 
@@ -615,13 +618,25 @@ class MySQLtabledit {
 			if (!isset($background)) $background = '';
 			if ($background == '#eee') {$background='#fff';} 
 				else {$background='#eee';}
-			if ($this->show_text[$key]) {$show_key = $this->show_text[$key];}
-				else {
+			
+				
+			if (isset($this->show_text[$key])) {$show_key = $this->show_text[$key];}
+			else {
 					$show_key = $key;
 				}
 				
 			if ($key == $this->primary_key || in_array($key,$this->fields_to_edit)) {
-				$rows .= "\n\n<tr style='background:$background'>\n<td><b>$show_key</b></td>\n<td>$field</td>\n<td style='min-width:300px;'>{$this->help_text[$key]}</td>\n</tr>";
+
+        if (isset($this->help_text[$key]))
+        {
+          $helptxt = $this->help_text[$key];
+        }
+        else
+        {
+          $helptxt = '';
+        }
+        
+				$rows .= "\n\n<tr style='background:$background'>\n<td><b>$show_key</b></td>\n<td>$field</td>\n<td style='min-width:300px;'>{$helptxt}</td>\n</tr>";
 			}
 		}
 		

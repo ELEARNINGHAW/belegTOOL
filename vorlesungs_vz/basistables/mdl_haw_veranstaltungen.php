@@ -1,5 +1,5 @@
 <?php
-$err_level = error_reporting(0);
+$err_level = error_reporting(E_ALL);
 session_start();
 require_once("mte/mte.php");
 $tabledit = new MySQLtabledit();
