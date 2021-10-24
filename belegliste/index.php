@@ -40,18 +40,19 @@ if ( isset( $_GET[ 'sv'   ] ) )
 { 
   $_SESSION['intern'] = 'true';
 }
-
 #$phase = $_SESSION[ "phase" ] = 0;
-if ( isset( $_SESSION[ 'intern' ]) && $_SESSION[ 'intern' ] != 'true'  )                                                              // -- Beschränkung nur bei Studiansicht
-{ if ( time() > $phasewechsel[ 1 ] )  {  $phase = $_SESSION[ "phase" ] = 1; }
-  if ( time() > $phasewechsel[ 2 ] )  {  $phase = $_SESSION[ "phase" ] = 2; }
-  if ( time() > $phasewechsel[ 3 ] )  {  $phase = $_SESSION[ "phase" ] = 3; }                         if ($DEBUG) { echo "<br>Intern"; deb( $_SESSION  ); }
-  if ( time() > $phasewechsel[ 4 ] )  {  $phase = $_SESSION[ "phase" ] = 4; }                         if ($DEBUG) { echo "<br>Intern"; deb( $_SESSION  ); }
+if ( isset( $_SESSION[ 'intern' ]) && $_SESSION[ 'intern' ] == 'true'  )                                                              // -- Beschränkung nur bei Studiansicht
+{
+  $phase =   $_SESSION[ "phase" ] = 1;
 }
 else                                                                                                // -- Keine Beschränkung bei Koordinatorenansicht 
 {                                                                                                     if ($DEBUG) { echo "<br>aus EMIL"; deb( $_SESSION  ); }
-  $phase =   $_SESSION[ "phase" ] = 1;                                                             
+  if ( time() > $phasewechsel[ 1 ] )  {  $phase = $_SESSION[ "phase" ] = 1; deb("1");}
+  if ( time() > $phasewechsel[ 2 ] )  {  $phase = $_SESSION[ "phase" ] = 2; deb("2"); }
+  if ( time() > $phasewechsel[ 3 ] )  {  $phase = $_SESSION[ "phase" ] = 3; deb("3"); }                         if ($DEBUG) { echo "<br>Intern"; deb( $_SESSION  ); }
+  if ( time() > $phasewechsel[ 4 ] )  {  $phase = $_SESSION[ "phase" ] = 4; deb("4"); }                         if ($DEBUG) { echo "<br>Intern"; deb( $_SESSION  ); }
 }
+
 
 #$phase = $_SESSION[ "phase" ] = 4; 
 
